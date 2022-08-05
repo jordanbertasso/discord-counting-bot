@@ -1,0 +1,40 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = "file:./dev.db"
+}
+
+model User {
+  id           Int      @id @default(autoincrement())
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+  discordID    String
+  timesCounted Int      @default(0)
+}
+
+model Server {
+  id           Int            @id @default(autoincrement())
+  createdAt    DateTime       @default(now())
+  updatedAt    DateTime       @updatedAt
+  discordID    String
+  CountChannel CountChannel[]
+}
+
+model CountChannel {
+  id                        Int      @id @default(autoincrement())
+  createdAt                 DateTime @default(now())
+  updatedAt                 DateTime @updatedAt
+  discordID                 String
+  currentCount              Int      @default(0)
+  recordCount               Int      @default(0)
+  lastCountTime             DateTime @default(now())
+  lastNumberSenderDiscordID String   @default("")
+  server                    Server   @relation(fields: [serverId], references: [id])
+  serverId                  Int
+}
