@@ -6,10 +6,6 @@ interface IConfig {
     clientId: string;
     guildId: string;
   };
-  web: {
-    jwtSecret: string;
-    uri: string;
-  };
 }
 
 const loadConfig = () => {
@@ -22,10 +18,6 @@ const loadConfig = () => {
       token: process.env.DISCORD_TOKEN || '',
       clientId: process.env.DISCORD_CLIENT_ID || '',
       guildId: process.env.DISCORD_GUILD_ID || '',
-    },
-    web: {
-      jwtSecret: process.env.WEB_JWT_SECRET || '',
-      uri: process.env.WEB_URI || '',
     },
   };
 

@@ -49,7 +49,10 @@ export async function onMessage(message: Message<boolean>) {
   if (number !== nextCount) {
     // If less than a second has passed since the last count, ignore the message
     // This prevents accidental double-counting
-    if (new Date().getTime() - countChannel.lastCountTime.getTime() < 1000) {
+    if (
+      number === countChannel.currentCount &&
+      new Date().getTime() - countChannel.lastCountTime.getTime() < 1000
+    ) {
       return;
     }
 
