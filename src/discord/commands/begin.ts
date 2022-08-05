@@ -24,6 +24,7 @@ export default {
     // Create the channel
     const channel = await interaction.guild.channels.create(channelName, {
       type: ChannelTypes.GUILD_TEXT,
+      topic: 'https://github.com/jordanbertasso/discord-counting-bot',
     });
 
     if (!channel) {
