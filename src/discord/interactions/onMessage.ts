@@ -51,7 +51,7 @@ export async function onMessage(message: Message<boolean>) {
     // This prevents accidental double-counting
     if (
       number === countChannel.currentCount &&
-      new Date().getTime() - countChannel.lastCountTime.getTime() < 1000
+      new Date().getTime() - countChannel.lastCountTime.getTime() < 5000
     ) {
       return;
     }
