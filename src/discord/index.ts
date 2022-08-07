@@ -11,6 +11,7 @@ import pingCommand from './commands/ping';
 import beginCommand from './commands/begin';
 import setCountCommand from './commands/setCount';
 import setCountChannelCommand from './commands/setCountChannel';
+import recordCommand from './commands/record';
 import { onMessage } from './interactions/onMessage';
 import { onMessageDelete } from './interactions/onMessageDelete';
 
@@ -33,6 +34,7 @@ commands.set(pingCommand.data.name, pingCommand);
 commands.set(beginCommand.data.name, beginCommand);
 commands.set(setCountCommand.data.name, setCountCommand);
 commands.set(setCountChannelCommand.data.name, setCountChannelCommand);
+commands.set(recordCommand.data.name, recordCommand);
 
 // When the client is ready, run this code (only once)
 client.once('ready', () => {

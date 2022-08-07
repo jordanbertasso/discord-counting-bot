@@ -5,8 +5,9 @@ import begin from './commands/begin';
 import ping from './commands/ping';
 import setCount from './commands/setCount';
 import setCountChannel from './commands/setCountChannel';
+import record from './commands/record';
 
-const commands = [ping, begin, setCount, setCountChannel].map((command) =>
+const commands = [ping, begin, setCount, setCountChannel, record].map((command) =>
   command.data.toJSON(),
 );
 
