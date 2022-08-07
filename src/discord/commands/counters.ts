@@ -21,21 +21,24 @@ export default {
     // Get the top 5 users ordered by timesCounted
     const users = await getTopNUsersForGuild(interaction.guild.id, 5);
 
+    const top5Users: [string, number][] = await Promise.all(
+      users.map(async ({ discordID, timesCounted }) => {
+        const fetchedUser = await interaction.client.users.fetch(discordID);
+        const userName = fetchedUser.username;
+
+        return [userName, timesCounted];
+      }),
+    );
+
     // Build the message
     const message = new MessageEmbed()
       .setTitle('Top 5 Counters')
       .setColor('#0099ff')
-      .setDescription(
-        users
-          .map(async (user, index) => {
-            const fetchedUser = await interaction.client.users.fetch(
-              user.discordID,
-            );
-            const userName = fetchedUser.username;
-
-            return `${index + 1}. ${userName} - ${user.timesCounted}`;
-          })
-          .join('\n'),
+      .addFields(
+        ...top5Users.map(([userName, timesCounted]) => ({
+          name: userName,
+          value: timesCounted.toString(),
+        })),
       );
     interaction.reply({ embeds: [message] });
   },
