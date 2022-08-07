@@ -6,6 +6,11 @@ kill_timeout = 5
 processes = []
 
 [env]
+  DATABASE_URL = "file:./data/dev.db"
+
+[mount]
+  source="myapp_data"
+  destination="/app/data"
 
 [experimental]
   allowed_public_ports = []
