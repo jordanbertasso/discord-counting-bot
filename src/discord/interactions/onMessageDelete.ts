@@ -4,11 +4,6 @@ import { getCountChannelForGuild } from '../../db';
 export async function onMessageDelete(
   message: Message<boolean> | PartialMessage,
 ) {
-  // Ignore messages from bots
-  if (message.author?.bot) {
-    return;
-  }
-
   // Ignore messages not in a guild
   if (!message.guild) {
     return;

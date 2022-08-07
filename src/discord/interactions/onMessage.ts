@@ -32,6 +32,11 @@ export async function onMessage(message: Message<boolean>) {
     return;
   }
 
+  // Check if the message is an embed or an attachment
+  if (message.attachments.size > 0 || message.embeds.length > 0) {
+    return;
+  }
+
   // Check if the message is a number
   const number = Number(message.content);
   if (isNaN(number)) {
