@@ -10,6 +10,7 @@ import { logInteraction } from './util';
 import pingCommand from './commands/ping';
 import beginCommand from './commands/begin';
 import { onMessage } from './interactions/onMessage';
+import { onMessageDelete } from './interactions/onMessageDelete';
 
 // Create a new client instance
 const client = new Client({
@@ -36,6 +37,10 @@ client.once('ready', () => {
 
 client.on('messageCreate', async (message) => {
   await onMessage(message);
+});
+
+client.on('messageDelete', async (message) => {
+  await onMessageDelete(message);
 });
 
 // Handle command interactions
