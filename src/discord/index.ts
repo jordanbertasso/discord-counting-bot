@@ -9,6 +9,7 @@ import { SlashCommandBuilder } from '@discordjs/builders';
 import { logInteraction } from './util';
 import pingCommand from './commands/ping';
 import beginCommand from './commands/begin';
+import setCountCommand from './commands/setCount';
 import { onMessage } from './interactions/onMessage';
 import { onMessageDelete } from './interactions/onMessageDelete';
 
@@ -29,6 +30,7 @@ type TPermissionSlashCommand = {
 const commands = new Collection<string, TPermissionSlashCommand>();
 commands.set(pingCommand.data.name, pingCommand);
 commands.set(beginCommand.data.name, beginCommand);
+commands.set(setCountCommand.data.name, setCountCommand);
 
 // When the client is ready, run this code (only once)
 client.once('ready', () => {

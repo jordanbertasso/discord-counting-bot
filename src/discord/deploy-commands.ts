@@ -3,8 +3,11 @@ import { Routes } from 'discord-api-types/v9';
 import config from '../config';
 import begin from './commands/begin';
 import ping from './commands/ping';
+import setCount from './commands/setCount';
 
-const commands = [ping, begin].map((command) => command.data.toJSON());
+const commands = [ping, begin, setCount].map((command) =>
+  command.data.toJSON(),
+);
 
 const rest = new REST({ version: '9' }).setToken(config.discord.token);
 
