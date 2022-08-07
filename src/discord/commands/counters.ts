@@ -4,8 +4,8 @@ import { getTopNUsersForGuild } from '../../db';
 
 export default {
   data: new SlashCommandBuilder()
-    .setName('record')
-    .setDescription('Get the record for this channel'),
+    .setName('counters')
+    .setDescription('Get the top 5 counters for the server'),
   public: true,
   async execute(interaction: CommandInteraction) {
     if (!interaction.guild) {

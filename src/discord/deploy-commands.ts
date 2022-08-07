@@ -6,9 +6,10 @@ import ping from './commands/ping';
 import setCount from './commands/setCount';
 import setCountChannel from './commands/setCountChannel';
 import record from './commands/record';
+import counters from './commands/counters';
 
-const commands = [ping, begin, setCount, setCountChannel, record].map((command) =>
-  command.data.toJSON(),
+const commands = [ping, begin, setCount, setCountChannel, record, counters].map(
+  (command) => command.data.toJSON(),
 );
 
 const rest = new REST({ version: '9' }).setToken(config.discord.token);

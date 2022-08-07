@@ -10,7 +10,7 @@ RUN yarn install
 
 COPY . ./
 
-RUN yarn run prisma migrate dev --name init
+RUN yarn run prisma generate
 
 RUN yarn build
 
