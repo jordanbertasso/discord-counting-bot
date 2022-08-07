@@ -113,7 +113,7 @@ export async function onMessage(message: Message<boolean>) {
     await updateCountForChannel(countChannel, nextCount);
 
     // Update the stats for the author
-    await incrementTimesCountedForUser(message.author.id);
+    await incrementTimesCountedForUser(message.author.id, message.guild.id);
 
     // Update last count time
     await updateLastCountTimeForChannel(countChannel);

@@ -166,7 +166,10 @@ export async function createUser(
   return user;
 }
 
-export async function incrementTimesCountedForUser(userDiscordID: string) {
+export async function incrementTimesCountedForUser(
+  userDiscordID: string,
+  guildID: string,
+) {
   let user = await prisma.user.findFirst({
     where: {
       discordID: userDiscordID,
@@ -174,10 +177,10 @@ export async function incrementTimesCountedForUser(userDiscordID: string) {
   });
 
   if (!user) {
-    user = await createUser(userDiscordID, 'discordID');
+    user = await createUser(userDiscordID, guildID);
   }
 
-  prisma.user.update({
+  await prisma.user.update({
     where: { id: user.id },
     data: { timesCounted: { increment: 1 } },
   });
