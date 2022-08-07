@@ -1,4 +1,4 @@
-import { CountChannel, PrismaClient } from '@prisma/client';
+import { CountChannel, PrismaClient, User } from '@prisma/client';
 
 const prisma = new PrismaClient();
 
@@ -123,5 +123,74 @@ export async function updateLastNumberSenderForChannel(
     data: {
       lastNumberSenderDiscordID: discordID,
     },
+  });
+}
+
+export async function createUser(
+  discordID: string,
+  guildID: string,
+): Promise<User> {
+  // Create the server if it doesn't exist
+  let server = await prisma.server.findFirst({
+    where: {
+      discordID: guildID,
+    },
+  });
+  if (!server) {
+    server = await prisma.server.create({
+      data: {
+        discordID: guildID,
+      },
+    });
+  }
+
+  // Create the user if it doesn't exist
+  let user = await prisma.user.findFirst({
+    where: {
+      discordID: discordID,
+    },
+  });
+  if (!user) {
+    user = await prisma.user.create({
+      data: {
+        discordID: discordID,
+        server: {
+          connect: {
+            id: server.id,
+          },
+        },
+      },
+    });
+  }
+
+  return user;
+}
+
+export async function incrementTimesCountedForUser(userDiscordID: string) {
+  let user = await prisma.user.findFirst({
+    where: {
+      discordID: userDiscordID,
+    },
+  });
+
+  if (!user) {
+    user = await createUser(userDiscordID, 'discordID');
+  }
+
+  prisma.user.update({
+    where: { id: user.id },
+    data: { timesCounted: { increment: 1 } },
+  });
+}
+
+export async function getTopNUsersForGuild(guildID: string, n: number) {
+  return await prisma.user.findMany({
+    where: {
+      server: {
+        discordID: guildID,
+      },
+    },
+    orderBy: { timesCounted: 'desc' },
+    take: n,
   });
 }

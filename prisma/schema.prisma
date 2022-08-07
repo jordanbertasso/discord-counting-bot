@@ -17,6 +17,8 @@ model User {
   updatedAt    DateTime @updatedAt
   discordID    String
   timesCounted Int      @default(0)
+  server       Server   @relation(fields: [serverId], references: [id])
+  serverId     Int
 }
 
 model Server {
@@ -25,6 +27,7 @@ model Server {
   updatedAt    DateTime       @updatedAt
   discordID    String
   CountChannel CountChannel[]
+  User         User[]
 }
 
 model CountChannel {

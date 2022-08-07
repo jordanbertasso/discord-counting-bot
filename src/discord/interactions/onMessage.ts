@@ -1,6 +1,7 @@
 import { Message, MessageEmbed, TextChannel } from 'discord.js';
 import {
   getCountChannelForGuild,
+  incrementTimesCountedForUser,
   updateCountForChannel,
   updateCountRecordForChannel,
   updateLastCountTimeForChannel,
@@ -110,6 +111,9 @@ export async function onMessage(message: Message<boolean>) {
 
     // Update the count
     await updateCountForChannel(countChannel, nextCount);
+
+    // Update the stats for the author
+    await incrementTimesCountedForUser(message.author.id);
 
     // Update last count time
     await updateLastCountTimeForChannel(countChannel);

@@ -4,7 +4,9 @@ CREATE TABLE "User" (
     "createdAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" DATETIME NOT NULL,
     "discordID" TEXT NOT NULL,
-    "timesCounted" INTEGER NOT NULL DEFAULT 0
+    "timesCounted" INTEGER NOT NULL DEFAULT 0,
+    "serverId" INTEGER NOT NULL,
+    CONSTRAINT "User_serverId_fkey" FOREIGN KEY ("serverId") REFERENCES "Server" ("id") ON DELETE RESTRICT ON UPDATE CASCADE
 );
 
 -- CreateTable
