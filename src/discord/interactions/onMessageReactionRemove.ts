@@ -31,6 +31,11 @@ export async function onMessageReactionRemove(
     return;
   }
 
+  // Check if hard mode is enabled
+  if (!countChannel.hardMode) {
+    return;
+  }
+
   // Check if the reaction was a ✅
   if (messageReaction.emoji.name !== 'white_check_mark') {
     return;

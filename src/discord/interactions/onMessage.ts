@@ -82,10 +82,12 @@ export async function onMessage(message: Message<boolean>) {
     // Reset the last number sender
     await updateLastNumberSenderForChannel(countChannel, '');
 
-    // Remove the users send messages permission from the channel
-    await message.channel.permissionOverwrites.create(message.author, {
-      SEND_MESSAGES: false,
-    });
+    // Remove the users send messages permission from the channel if hard mode is enabled
+    if (countChannel.hardMode) {
+      await message.channel.permissionOverwrites.create(message.author, {
+        SEND_MESSAGES: false,
+      });
+    }
 
     // Send embed to the channel
     await message.reply({
@@ -96,7 +98,9 @@ export async function onMessage(message: Message<boolean>) {
           })
           .setTitle('`OUT` at ' + countChannel.currentCount)
           .setDescription(
-            'This user failed to continue the count and is now excluded from the channel.',
+            'This user failed to continue the count' + countChannel.hardMode
+              ? 'and is now excluded from the channel.'
+              : '',
           )
           .addField('The counter', 'has been set back to `0`.')
           .setColor(message.author.hexAccentColor || 'RED'),

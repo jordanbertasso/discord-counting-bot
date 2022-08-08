@@ -23,6 +23,11 @@ export async function onMessageDelete(
     return;
   }
 
+  // Check if hard mode is enabled
+  if (!countChannel.hardMode) {
+    return;
+  }
+
   // Check if the message was the last number sent
   if (
     message.author?.id === countChannel.lastNumberSenderDiscordID &&

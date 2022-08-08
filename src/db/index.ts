@@ -2,7 +2,11 @@ import { CountChannel, PrismaClient, User } from '@prisma/client';
 
 const prisma = new PrismaClient();
 
-export async function createCountChannel(guildID: string, channelID: string) {
+export async function createCountChannel(
+  guildID: string,
+  channelID: string,
+  hardMode = false,
+) {
   // Create the server if it doesn't exist
   let server = await prisma.server.findFirst({
     where: {
@@ -27,6 +31,7 @@ export async function createCountChannel(guildID: string, channelID: string) {
     await prisma.countChannel.create({
       data: {
         discordID: channelID,
+        hardMode,
         server: {
           connect: {
             id: server.id,

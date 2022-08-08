@@ -11,6 +11,13 @@ export default {
       option
         .setName('channel-name')
         .setDescription('The name of the channel to create'),
+    )
+    .addBooleanOption((option) =>
+      option
+        .setName('hard-mode')
+        .setDescription(
+          'Whether to remove people if they fail to continue the count',
+        ),
     ),
   async execute(interaction: CommandInteraction) {
     if (!interaction.guild) {
@@ -35,11 +42,13 @@ export default {
       return;
     }
 
+    const hardMode = interaction.options.getBoolean('hard-mode') || false;
+
     // Add channel to database
-    await createCountChannel(interaction.guild.id, channel.id);
+    await createCountChannel(interaction.guild.id, channel.id, hardMode);
 
     await interaction.reply({
-      content: `Created channel <#${channel.id}>`,
+      content: `Created channel <#${channel.id}> with hard mode: ${hardMode}`,
       ephemeral: true,
     });
   },
