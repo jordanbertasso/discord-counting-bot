@@ -15,6 +15,8 @@ import recordCommand from './commands/record';
 import countersCommand from './commands/counters';
 import { onMessage } from './interactions/onMessage';
 import { onMessageDelete } from './interactions/onMessageDelete';
+import { onMessageEdit } from './interactions/onMessageEdit';
+import { onMessageReactionRemove } from './interactions/onMessageReactionRemove';
 
 // Create a new client instance
 const client = new Client({
@@ -49,6 +51,14 @@ client.on('messageCreate', async (message) => {
 
 client.on('messageDelete', async (message) => {
   await onMessageDelete(message);
+});
+
+client.on('messageEdit', async (message) => {
+  await onMessageEdit(message);
+});
+
+client.on('messageReactionRemove', async (messageReaction, user) => {
+  await onMessageReactionRemove(messageReaction, user);
 });
 
 // Handle command interactions

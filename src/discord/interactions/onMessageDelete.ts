@@ -33,7 +33,7 @@ export async function onMessageDelete(
       embeds: [
         new MessageEmbed()
           .setTitle('Shame')
-          .setDescription(`${message.author} is a cheat.`)
+          .setDescription(`<@${message.author.id}> is a cheat.`)
           .setColor(0xff0000),
       ],
     });
