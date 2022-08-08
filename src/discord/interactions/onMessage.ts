@@ -98,9 +98,9 @@ export async function onMessage(message: Message<boolean>) {
           })
           .setTitle('`OUT` at ' + countChannel.currentCount)
           .setDescription(
-            'This user failed to continue the count' + countChannel.hardMode
+            'This user failed to continue the count' + (countChannel.hardMode
               ? 'and is now excluded from the channel.'
-              : '',
+              : ''),
           )
           .addField('The counter', 'has been set back to `0`.')
           .setColor(message.author.hexAccentColor || 'RED'),
