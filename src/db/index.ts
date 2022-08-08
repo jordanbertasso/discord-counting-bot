@@ -148,8 +148,12 @@ export async function createUser(
   let user = await prisma.user.findFirst({
     where: {
       discordID: discordID,
+      server: {
+        discordID: discordID,
+      },
     },
   });
+
   if (!user) {
     user = await prisma.user.create({
       data: {
@@ -173,6 +177,9 @@ export async function incrementTimesCountedForUser(
   let user = await prisma.user.findFirst({
     where: {
       discordID: userDiscordID,
+      server: {
+        discordID: guildID,
+      },
     },
   });
 
