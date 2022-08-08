@@ -98,20 +98,21 @@ export async function onMessage(message: Message<boolean>) {
           })
           .setTitle('`OUT` at ' + countChannel.currentCount)
           .setDescription(
-            'This user failed to continue the count' + (countChannel.hardMode
-              ? 'and is now excluded from the channel.'
-              : ''),
+            'This user failed to continue the count' +
+              (countChannel.hardMode
+                ? 'and is now excluded from the channel.'
+                : ''),
           )
           .addField('The counter', 'has been set back to `0`.')
           .setColor(message.author.hexAccentColor || 'RED'),
       ],
     });
   } else {
-    // Add a check mark to the message
-    await message.react('✅');
-
     // Update the last number sender
     await updateLastNumberSenderForChannel(countChannel, message.author.id);
+
+    // Update last count time
+    await updateLastCountTimeForChannel(countChannel);
 
     // Update the count
     await updateCountForChannel(countChannel, nextCount);
@@ -119,10 +120,10 @@ export async function onMessage(message: Message<boolean>) {
     // Update the stats for the author
     await incrementTimesCountedForUser(message.author.id, message.guild.id);
 
-    // Update last count time
-    await updateLastCountTimeForChannel(countChannel);
-
     // Save the record to the database
     await updateCountRecordForChannel(countChannel, nextCount);
+
+    // Add a check mark to the message
+    await message.react('✅');
   }
 }
