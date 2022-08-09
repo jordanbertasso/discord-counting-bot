@@ -17,6 +17,7 @@ import { onMessage } from './interactions/onMessage';
 import { onMessageDelete } from './interactions/onMessageDelete';
 import { onMessageEdit } from './interactions/onMessageEdit';
 import { onMessageReactionRemove } from './interactions/onMessageReactionRemove';
+import unSetCountChannelCommand from './commands/unSetCountChannel';
 
 // Create a new client instance
 const client = new Client({
@@ -39,6 +40,7 @@ commands.set(setCountCommand.data.name, setCountCommand);
 commands.set(setCountChannelCommand.data.name, setCountChannelCommand);
 commands.set(recordCommand.data.name, recordCommand);
 commands.set(countersCommand.data.name, countersCommand);
+commands.set(unSetCountChannelCommand.data.name, unSetCountChannelCommand);
 
 // When the client is ready, run this code (only once)
 client.once('ready', () => {

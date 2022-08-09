@@ -2,6 +2,78 @@ import { CountChannel, PrismaClient, User } from '@prisma/client';
 
 const prisma = new PrismaClient();
 
+prisma.$use(async (params, next) => {
+  // Check incoming query type
+  if (params.model === 'CountChannel') {
+    if (params.action === 'findFirst' || params.action === 'findUnique') {
+      params.action = 'findFirst';
+      params.args.where = {
+        ...params.args.where,
+        deletedAt: null,
+      };
+    }
+
+    if (params.action === 'findMany') {
+      // Find many queries
+      if (params.args.where) {
+        if (params.args.where.deletedAt === undefined) {
+          // Exclude deleted records if they have not been explicitly requested
+          params.args.where['deletedAt'] = null;
+        }
+      }
+    }
+  }
+
+  return next(params);
+});
+
+prisma.$use(async (params, next) => {
+  // Check incoming query type
+  if (params.model === 'CountChannel') {
+    if (params.action === 'update') {
+      // Change to updateMany - you cannot filter
+      // by anything except ID / unique with findUnique
+      params.action = 'updateMany';
+      // Add 'deleted' filter
+      // ID filter maintained
+      params.args.where['deletedAt'] = null;
+    }
+
+    if (params.action === 'updateMany') {
+      if (params.args.where !== undefined) {
+        params.args.where['deletedAt'] = null;
+      } else {
+        params.args['where'] = { deleted: null };
+      }
+    }
+  }
+
+  return next(params);
+});
+
+prisma.$use(async (params, next) => {
+  // Check incoming query type
+  if (params.model === 'CountChannel') {
+    if (params.action == 'delete') {
+      // Delete queries
+      // Change action to an update
+      params.action = 'update';
+      params.args['data'] = { deletedAt: new Date() };
+    }
+    if (params.action == 'deleteMany') {
+      // Delete many queries
+      params.action = 'updateMany';
+      if (params.args.data !== undefined) {
+        params.args.data['deletedAt'] = new Date();
+      } else {
+        params.args['data'] = { deletedAt: new Date() };
+      }
+    }
+  }
+
+  return next(params);
+});
+
 export async function createCountChannel(
   guildID: string,
   channelID: string,
@@ -37,6 +109,25 @@ export async function createCountChannel(
             id: server.id,
           },
         },
+      },
+    });
+  }
+}
+
+export async function deleteCountChannel(guildID: string, channelID: string) {
+  const channel = await prisma.countChannel.findFirst({
+    where: {
+      discordID: channelID,
+      server: {
+        discordID: guildID,
+      },
+    },
+  });
+
+  if (channel) {
+    await prisma.countChannel.delete({
+      where: {
+        id: channel.id,
       },
     });
   }
