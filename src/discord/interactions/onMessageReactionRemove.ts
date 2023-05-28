@@ -7,6 +7,7 @@ import {
   User,
 } from 'discord.js';
 import { getCountChannelForGuild } from '../../db';
+import { parseNumber } from '../util';
 
 export async function onMessageReactionRemove(
   messageReaction: MessageReaction | PartialMessageReaction,
@@ -45,7 +46,7 @@ export async function onMessageReactionRemove(
   if (
     messageReaction.message.author?.id ===
       countChannel.lastNumberSenderDiscordID &&
-    Number(messageReaction.message.content) === countChannel.currentCount
+    parseNumber(messageReaction.message.content) === countChannel.currentCount
   ) {
     // Name and shame the person who deleted the checkmark
     await messageReaction.message.channel.send({

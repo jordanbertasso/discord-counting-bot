@@ -7,6 +7,7 @@ import {
   updateLastCountTimeForChannel,
   updateLastNumberSenderForChannel,
 } from '../../db';
+import { parseNumber } from '../util';
 
 export async function onMessage(message: Message<boolean>) {
   // Ignore messages from bots
@@ -39,7 +40,7 @@ export async function onMessage(message: Message<boolean>) {
   }
 
   // Check if the message is a number
-  const number = Number(message.content);
+  const number = parseNumber(message.content);
   if (isNaN(number)) {
     return;
   }
@@ -66,7 +67,7 @@ export async function onMessage(message: Message<boolean>) {
     await message.react('❌');
 
     // Save the record to the database
-    const record = await updateCountRecordForChannel(
+    await updateCountRecordForChannel(
       countChannel,
       countChannel.currentCount,
     );

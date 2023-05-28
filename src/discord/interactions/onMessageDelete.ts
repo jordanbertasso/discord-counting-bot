@@ -1,5 +1,6 @@
 import { Message, MessageEmbed, PartialMessage, TextChannel } from 'discord.js';
 import { getCountChannelForGuild } from '../../db';
+import { parseNumber } from '../util';
 
 export async function onMessageDelete(
   message: Message<boolean> | PartialMessage,
@@ -31,7 +32,7 @@ export async function onMessageDelete(
   // Check if the message was the last number sent
   if (
     message.author?.id === countChannel.lastNumberSenderDiscordID &&
-    Number(message.content) === countChannel.currentCount
+    parseNumber(message.content) === countChannel.currentCount
   ) {
     // Name and shame the author
     await message.channel.send({

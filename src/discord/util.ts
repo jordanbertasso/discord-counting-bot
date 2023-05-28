@@ -1,5 +1,12 @@
 import { Interaction, TextBasedChannel } from 'discord.js';
 
+export const parseNumber = (input: string | null) => {
+  if(!input) return NaN;
+  // test for octal values with leading zero (e.g. '010')
+  if (/^0[0-9]+$/.test(input)) return parseInt(input, 8);
+  else return Number(input);
+}
+
 const getChannelName = (channel: TextBasedChannel | null) => {
   let channelName = 'unknown';
 
